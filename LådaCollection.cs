@@ -7,46 +7,59 @@ namespace Labb1Generics
 {
     public class LådaCollection : ICollection<Låda>
     {
-        private List<Låda> innerCol;
+        public IEnumerator<Låda> GetEnumerator()
+        {
+            return new LådaEnumerator(this);
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new LådaEnumerator(this);
+        }
+        private List<Låda> innerCollection; //Private list to use within the LådaCollection-class
         public LådaCollection()
         {
-            innerCol = new List<Låda>();
-        }
-        public int Count { get { return innerCol.Count; } }
-
+            innerCollection = new List<Låda>();
+        }       
+        public int Count { get { return innerCollection.Count; } }
         public bool IsReadOnly { get { return false; } }
-
+        public Låda this[int index]
+        {
+            get { return (Låda)innerCollection[index]; }
+            set { innerCollection[index] = value; }
+        }
+        //------------------------------------------------------------------------------------------------------
         public void Add(Låda item)
         {
             if(!Contains(item))
             {
-                innerCol.Add(item);
+                innerCollection.Add(item);
+                Console.WriteLine("Den nya lådan är inlagd i listan.");
             }
             else
             {
                 Console.WriteLine("En låda med dessa mått finns redan.");
             }
         }
-
+        //------------------------------------------------------------------------------------------------------
         public void Clear()
         {
-            innerCol.Clear();
+            innerCollection.Clear();
         }
-
+        //------------------------------------------------------------------------------------------------------
         public bool Contains(Låda item)
         {
-            bool finns = false;
+            bool boxAlreadyExist = false;
 
-            foreach (Låda L in innerCol)
+            foreach (Låda L in innerCollection)
             {
                 if(L.Equals(item))
                 {
-                    finns = true;
+                    boxAlreadyExist = true;
                 }
             }
-            return finns;
+            return boxAlreadyExist;
         }
-
+        //------------------------------------------------------------------------------------------------------
         public void CopyTo(Låda[] array, int arrayIndex)
         {
            if(array == null)
@@ -61,37 +74,31 @@ namespace Labb1Generics
             {
                 throw new ArgumentException("Index finns ej");
             }
-            for (int i = 0; i < innerCol.Count; i++)
+            for (int i = 0; i < innerCollection.Count; i++)
             {
-                array[i + arrayIndex] = innerCol[i];
+                array[i + arrayIndex] = innerCollection[i];
             }
         }
-
-       
-
+        //------------------------------------------------------------------------------------------------------
         public bool Remove(Låda item)
         {
             bool result = false;
-            for (int i = 0; i < innerCol.Count; i++)
+            for (int i = 0; i < innerCollection.Count; i++)
             {
-                Låda curLåda = innerCol[i];
+                Låda curLåda = innerCollection[i];
 
                 if(new LådaSameDimensions().Equals(curLåda, item))
                 {
-                    innerCol.RemoveAt(i);
+                    innerCollection.RemoveAt(i);
                     result = true;
+                    Console.WriteLine("Lådan är borttagen.");
                     break;
                 }
             }
+            Console.WriteLine("Låda med de måtten finns ej.");
             return result;
         }
-        public IEnumerator<Låda> GetEnumerator()
-        {
-            return new LådaEnumerator(this);
-        }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new LådaEnumerator(this);
-        }
+        //------------------------------------------------------------------------------------------------------
+        
     }
 }

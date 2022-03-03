@@ -17,7 +17,12 @@ namespace Labb1Generics
         public int längd { get; set; }
         public int bredd { get; set; }
 
+        public int Volym()
+        {
+            int volym = höjd * bredd * längd;
 
+            return volym;
+        }
         public bool Equals(Låda other)
         {
             if (new LådaSameDimensions().Equals(this, other))
@@ -32,6 +37,7 @@ namespace Labb1Generics
 
         public override bool Equals(object obj)
         {
+            
             return base.Equals(obj);
         }
 

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Labb1Generics
 {
@@ -13,16 +12,15 @@ namespace Labb1Generics
         
         public LådaEnumerator(LådaCollection låda)
         {
-            this.lådor = låda;
+            lådor = låda;
             curIndex = -1;
             curLåda = default(Låda);
         }
+        //------------------------------------------------------------------------------------------------------
         public Låda Current { get { return curLåda; } }
-
-        object IEnumerator.Current { get { return Current; } }
-        
+        object IEnumerator.Current { get { return Current; } }     
         public int Count { get { return lådor.Count; } }
-
+        //------------------------------------------------------------------------------------------------------
         public bool MoveNext()
         {
             if(++curIndex >= lådor.Count)
@@ -34,16 +32,17 @@ namespace Labb1Generics
                 curLåda = lådor[curIndex];
             }
             return true;
+           
         }
-
+        //------------------------------------------------------------------------------------------------------
         public void Reset()
         {
-            throw new NotImplementedException();
+            curIndex = -1;
         }
-
+        //------------------------------------------------------------------------------------------------------
         public void Dispose()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

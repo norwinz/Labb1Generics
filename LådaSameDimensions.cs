@@ -21,7 +21,7 @@ namespace Labb1Generics
 
         public override int GetHashCode([DisallowNull] Låda obj)
         {
-            var hCode = obj.höjd ^ obj.längd ^ obj.bredd;
+            int hCode = obj.höjd ^ obj.längd ^ obj.bredd;
             return hCode.GetHashCode();
         }
     }
